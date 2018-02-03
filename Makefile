@@ -1,6 +1,5 @@
 OUTFILE := image.ppm
 CLEANTARGETS := $(OUTFILE)
-WHOAMI := $(lastword $(MAKEFILE_LIST))
 MAXCOLOR := 255
 SHELL := bash
 
