@@ -8,7 +8,7 @@ SHELL := bash
 MAKEFLAGS += -rR --no-print-directory
 
 # We encode items into itemized lists because Make has no arithmetic system.
-encode = $(shell eval echo "{1..$1}")
+encode = $(shell for ((i = 1; i <= $1; i++)); do echo $$i; done)
 decode = $(words $1)
 
 LB := 500
