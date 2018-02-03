@@ -1,6 +1,7 @@
 OUTFILE := image.ppm
 CLEANTARGETS := $(OUTFILE)
 WHOAMI := $(lastword $(MAKEFILE_LIST))
+MAXCOLOR := 255
 
 # Disable built-in rules and variables
 MAKEFLAGS += -rR --no-print-directory
@@ -28,7 +29,7 @@ all: clean header $(OUTFILE)
 clean:
 	@$(foreach i, $(CLEANTARGETS), $(Q)echo "  CLEAN		$(i)"; rm -rf $(i);)
 
-color := $$((RANDOM % 255))
+color := $$((RANDOM % $(MAXCOLOR)))
 
 pixel := $(color) $(color) $(color)
 
@@ -40,8 +41,11 @@ header: clean
 	@$(Q)echo "  ROWS		$(call decode, $(DIMR))"
 	@echo "$(call decode, $(DIMR))" >> $(OUTFILE)
 
-	@$(Q)echo "  COLUMNS 	$(call decode, $(DIMC))"
+	@$(Q)echo "  COLUMNS	$(call decode, $(DIMC))"
 	@echo "$(call decode, $(DIMC))" >> $(OUTFILE)
+
+	@$(Q)echo "  COLORSPACE	$(MAXCOLOR)"
+	@echo "$(MAXCOLOR)" >> $(OUTFILE)
 
 row:
 	@$(Q)$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $(OUTFILE)))
