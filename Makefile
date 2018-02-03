@@ -48,8 +48,8 @@ header: clean
 	@echo "$(MAXCOLOR)" >> $(OUTFILE)
 
 row:
-	@$(Q)$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $(OUTFILE)))
-	@$(Q)echo >> $(OUTFILE)
+	@$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $(OUTFILE)))
+	@echo >> $(OUTFILE)
 
 $(OUTFILE): $(DIMR)
 	@$(Q)echo "  FINISHED	$(OUTFILE)"
