@@ -1,0 +1,36 @@
+graphics1
+Abusing Makefiles Edition
+
+--------------------------------------------------------------------------------
+
+Requires GNU Make, which is the default make for most systems that have it.
+Requires bash for a few constructs.
+
+--------------------------------------------------------------------------------
+
+Usage:
+$ make
+Running the default target destroys old images with the same target name.
+A PPM is generated with rectangular dimensions between $LB and $HB.
+
+If you need to debug the Makefile itself, declare the variable $V:
+$ V=[...] make
+or
+$ make V=[...]
+It does not matter what $V is set to, just that it exists.
+
+--------------------------------------------------------------------------------
+
+Notes:
+
+This is (mostly) a proof of concept and is not meant to run fast. It took about
+6m23.998s to generate a 849*732 image.
+
+The algorithm should allow parallel processing, but currently does not build in
+parallel for reasons unknown.
+It might be possible to further optimize this by creating a matrix of targets,
+so that creation of individual pixels can itself be parallelized.
+Alternatively, since we currently aren't doing anything special with the rows
+and columns, we can really just have one generator for pixels to generate W*H
+pixels.
+
