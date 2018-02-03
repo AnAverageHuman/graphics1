@@ -19,6 +19,17 @@ or
 $ make V=[...]
 It does not matter what $V is set to, just that it exists.
 
+The following variables can be set in a similar manner:
+OUTFILE  | The file to output to.
+MAXCOLOR | The maximum value a color can have.
+LB       | The smallest image dimension.
+HB       | The largest image dimension.
+
+For example, to lock the dimensions to 50*50, one might run:
+$ make LB=49 HB=50
+That is the same as:
+$ LB=49 HB=50 make
+
 --------------------------------------------------------------------------------
 
 Notes:

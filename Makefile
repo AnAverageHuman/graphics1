@@ -1,6 +1,7 @@
-OUTFILE := image.ppm
+OUTFILE ?= image.ppm
+MAXCOLOR ?= 255
+
 CLEANTARGETS := $(OUTFILE)
-MAXCOLOR := 255
 SHELL := bash
 
 # Disable built-in rules and variables
@@ -10,8 +11,8 @@ MAKEFLAGS += -rR --no-print-directory
 encode = $(shell for ((i = 1; i <= $1; i++)); do echo $$i; done)
 decode = $(words $1)
 
-LB := 500
-HB := 1000
+LB ?= 500
+HB ?= 1000
 RANDINB := $$((RANDOM % $$(($(HB) - $(LB))) + $(LB) + 1))
 DIMR := $(call encode,$(shell echo $(RANDINB)))
 DIMC := $(call encode,$(shell echo $(RANDINB)))
