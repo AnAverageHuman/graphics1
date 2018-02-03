@@ -23,19 +23,22 @@ ifneq ($(V),)
 	Q = true ||
 endif
 
-.PHONY: all clean row $(DIMR)
+.PHONY: all distclean row $(DIMR)
 
-all: clean header $(OUTFILE)
+all: distclean header $(OUTFILE)
 
 clean:
+	rm -f $(OUTFILE)
+
+distclean:
 	@$(foreach i, $(CLEANTARGETS), $(Q)echo "  CLEAN		$(i)"; rm -rf $(i);)
 
 color := $$((RANDOM % $(MAXCOLOR)))
 
 pixel := $(color) $(color) $(color)
 
-# Avoid a race condition when running in parallel by waiting for clean.
-header: clean
+# Avoid a race condition when running in parallel by waiting for distclean.
+header: distclean
 	@$(Q)echo "  MAGICNUMBER	P3"
 	@echo "P3" >> $(OUTFILE)
 
