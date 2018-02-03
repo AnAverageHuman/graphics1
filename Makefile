@@ -2,6 +2,7 @@ OUTFILE := image.ppm
 CLEANTARGETS := $(OUTFILE)
 WHOAMI := $(lastword $(MAKEFILE_LIST))
 MAXCOLOR := 255
+SHELL := bash
 
 # Disable built-in rules and variables
 MAKEFLAGS += -rR --no-print-directory
@@ -18,7 +19,7 @@ DIMC := $(call encode,$(shell echo $(RANDINB)))
 
 # echo all commands if $V is set; replacing echo commands with "true"
 ifneq ($(V),)
-	SHELL := sh -x
+	SHELL += -x
 	Q = true ||
 endif
 
