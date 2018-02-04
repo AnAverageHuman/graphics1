@@ -49,16 +49,16 @@ prepare: distclean
 
 $(OBJDIR)/header: prepare
 	@$(Q)echo "  MAGICNUMBER	P3"
-	@echo "P3" >> $@
+	@echo "P3 " >> $@
 
 	@$(Q)echo "  ROWS		$(call decode, $(DIMR))"
-	@echo "$(call decode, $(DIMR))" >> $@
+	@echo "$(call decode, $(DIMR)) " >> $@
 
 	@$(Q)echo "  COLUMNS	$(call decode, $(DIMC))"
-	@echo "$(call decode, $(DIMC))" >> $@
+	@echo "$(call decode, $(DIMC)) " >> $@
 
 	@$(Q)echo "  COLORSPACE	$(MAXCOLOR)"
-	@echo "$(MAXCOLOR)" >> $@
+	@echo "$(MAXCOLOR) " >> $@
 
 $(DIMR): prepare
 	@$(Q)echo "  ROW		$@"
@@ -67,5 +67,5 @@ $(DIMR): prepare
 
 $(OUTFILE): $(OBJDIR)/header $(DIMR)
 	@$(Q)echo "  PPM		$(OUTFILE)"
-	@cat $^ >> $(OUTFILE)
+	@$(foreach i, $^, $(shell echo $(file < $i) >> $@))
 

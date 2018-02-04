@@ -3,8 +3,9 @@ Abusing Makefiles Edition
 
 --------------------------------------------------------------------------------
 
-Requires GNU Make, which is the default make for most systems that have it.
+Requires GNU Make >=v4.2, the default make for most Linux systems that have it.
 Requires bash for a few constructs.
+Also requires `rm' and `mkdir' for preparation only.
 
 --------------------------------------------------------------------------------
 
