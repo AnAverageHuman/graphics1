@@ -1,7 +1,8 @@
 OUTFILE ?= image.ppm
 MAXCOLOR ?= 255
 
-CLEANTARGETS := $(OUTFILE)
+OBJDIR := build
+CLEANTARGETS := $(OBJDIR) $(OUTFILE)
 SHELL := bash
 
 # Disable built-in rules and variables
@@ -14,8 +15,8 @@ decode = $(words $1)
 LB ?= 500
 HB ?= 1000
 RANDINB := $$((RANDOM % $$(($(HB) - $(LB))) + $(LB) + 1))
-DIMR := $(call encode,$(shell echo $(RANDINB)))
-DIMC := $(call encode,$(shell echo $(RANDINB)))
+DIMR := $(addprefix $(OBJDIR)/, $(call encode,$(shell echo $(RANDINB))))
+DIMC := $(addprefix $(OBJDIR)/, $(call encode,$(shell echo $(RANDINB))))
 
 # echo all commands if $V is set; replacing echo commands with "true"
 ifneq ($(V),)
@@ -23,9 +24,10 @@ ifneq ($(V),)
 	Q = true ||
 endif
 
-.PHONY: all distclean row $(DIMR)
+.PHONY: all clean distclean prepare
+.INTERMEDIATE: $(OBJDIR)/header
 
-all: distclean header $(OUTFILE)
+all: $(OUTFILE)
 
 clean:
 	rm -f $(OUTFILE)
@@ -37,29 +39,29 @@ color := $$((RANDOM % $(MAXCOLOR)))
 
 pixel := $(color) $(color) $(color)
 
-# Avoid a race condition when running in parallel by waiting for distclean.
-header: distclean
+prepare: distclean
+	@$(Q)echo "  MKDIR		$(OBJDIR)"
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/header: prepare
 	@$(Q)echo "  MAGICNUMBER	P3"
-	@echo "P3" >> $(OUTFILE)
+	@echo "P3" >> $@
 
 	@$(Q)echo "  ROWS		$(call decode, $(DIMR))"
-	@echo "$(call decode, $(DIMR))" >> $(OUTFILE)
+	@echo "$(call decode, $(DIMR))" >> $@
 
 	@$(Q)echo "  COLUMNS	$(call decode, $(DIMC))"
-	@echo "$(call decode, $(DIMC))" >> $(OUTFILE)
+	@echo "$(call decode, $(DIMC))" >> $@
 
 	@$(Q)echo "  COLORSPACE	$(MAXCOLOR)"
-	@echo "$(MAXCOLOR)" >> $(OUTFILE)
+	@echo "$(MAXCOLOR)" >> $@
 
-row:
-	@$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $(OUTFILE)))
-	@echo >> $(OUTFILE)
-
-$(OUTFILE): $(DIMR)
-	@$(Q)echo "  FINISHED	$(OUTFILE)"
-
-# Avoid a race condition when running in parallel by waiting for the header.
-$(DIMR): header
+$(DIMR): prepare
 	@$(Q)echo "  ROW		$@"
-	@+$(MAKE) row
+	@$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $@))
+	@echo >> $@
+
+$(OUTFILE): $(OBJDIR)/header $(DIMR)
+	@$(Q)echo "  PPM		$(OUTFILE)"
+	@cat $^ >> $(OUTFILE)
 
