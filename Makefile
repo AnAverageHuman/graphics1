@@ -30,7 +30,6 @@ ifneq ($(V),)
 endif
 
 .PHONY: all clean distclean prepare
-.INTERMEDIATE: $(OBJDIR)/header
 
 all: $(OUTFILE)
 
