@@ -22,13 +22,22 @@ It does not matter what $V is set to, just that it exists.
 The following variables can be set in a similar manner:
 OUTFILE  | The file to output to.
 MAXCOLOR | The maximum value a color can have.
-LB       | The smallest image dimension.
-HB       | The largest image dimension.
+LB       | The smallest possible dimension.
+HB       | The largest possible dimension.
+RLB      | The smallest possible row dimension. Takes precedence over LB.
+CLB      | The smallest possible column dimension. Takes precedence over LB.
+RHB      | The largest possible row dimension. Takes precedence over HB.
+CHB      | The largest possible column dimension. Takes precedence over HB.
 
 For example, to lock the dimensions to 50*50, one might run:
 $ make LB=49 HB=50
 That is the same as:
 $ LB=49 HB=50 make
+
+There are no sanity checks.
+As such, using a {,R,C}LB value equal to or greater than its respective {,R,C}HB
+value will not crash the program, but also will not work as expected (if one
+does expect anything to come from doing so).
 
 --------------------------------------------------------------------------------
 

@@ -14,9 +14,14 @@ decode = $(words $1)
 
 LB ?= 500
 HB ?= 1000
-RANDINB := $$((RANDOM % $$(($(HB) - $(LB))) + $(LB) + 1))
-DIMR := $(addprefix $(OBJDIR)/, $(call encode,$(shell echo $(RANDINB))))
-DIMC := $(addprefix $(OBJDIR)/, $(call encode,$(shell echo $(RANDINB))))
+RLB ?= $(LB)
+RHB ?= $(HB)
+CLB ?= $(LB)
+CHB ?= $(HB)
+
+RANDINB = $(shell echo $$((RANDOM % $$(($1 - $2)) + $2 + 1))) # HB, LB
+DIMR := $(addprefix $(OBJDIR)/, $(call encode,$(call RANDINB, $(RHB), $(RLB))))
+DIMC := $(addprefix $(OBJDIR)/, $(call encode,$(call RANDINB, $(CHB), $(CLB))))
 
 # echo all commands if $V is set; replacing echo commands with "true"
 ifneq ($(V),)
