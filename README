@@ -11,6 +11,9 @@ Also requires `rm' and `mkdir' for preparation only.
 
 Usage:
 $ make
+Alternatively, it can be run like an executable:
+$ ./Makefile
+
 Running the default target destroys old images with the same target name.
 A PPM is generated with rectangular dimensions between $LB and $HB.
 

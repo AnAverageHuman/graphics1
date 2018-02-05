@@ -1,3 +1,4 @@
+#!/usr/bin/gmake -f
 OUTFILE ?= image.ppm
 MAXCOLOR ?= 255
 
