@@ -44,6 +44,8 @@ color := $$((RANDOM % $(MAXCOLOR)))
 
 pixel := $(color) $(color) $(color)
 
+row := $(foreach x, $(DIMC), $(pixel) )
+
 prepare: distclean
 	@$(Q)echo "  MKDIR		$(OBJDIR)"
 	@mkdir -p $(OBJDIR)
@@ -63,7 +65,7 @@ $(OBJDIR)/header: prepare
 
 $(DIMR): prepare
 	@$(Q)echo "  ROW		$@"
-	@$(foreach x, $(DIMC), $(shell echo "$(pixel) " >> $@))
+	@echo $(row) >> $@
 	@echo >> $@
 
 $(OUTFILE): $(OBJDIR)/header $(DIMR)

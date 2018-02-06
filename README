@@ -48,7 +48,7 @@ does expect anything to come from doing so).
 Notes:
 
 This is (mostly) a proof of concept and is not meant to run fast. It took about
-6m23.998s to generate a 849*732 image.
+60.54s to generate a 2301*2301 pixel image.
 
 The algorithm should allow parallel processing, but currently does not build in
 parallel for reasons unknown.
