@@ -40,7 +40,7 @@ clean:
 distclean:
 	@$(foreach i, $(CLEANTARGETS), $(Q)echo "  CLEAN		$(i)"; rm -rf $(i);)
 
-color := $$((RANDOM % $(MAXCOLOR)))
+color := $$((RANDOM % $$(($(MAXCOLOR) + 1))))
 
 pixel := $(color) $(color) $(color)
 
